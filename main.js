@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import App from './App'
 
-import {} from '@escook/request-miniprogram'
+import { $http } from '@escook/request-miniprogram'
 
 uni.$http = $http
+
+// https://www.zhengzhicheng.cn
+// https://autumnfish.cn/wx
+$http.baseUrl = 'https://www.uinav.com'
 
 // 请求拦截器
 $http.beforeRequest = function(options) {
