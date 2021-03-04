@@ -3,12 +3,9 @@
     <view class="scroll-view-container">
       <!-- 左侧的滚动视图区域 -->
       <scroll-view class="left-scroll-view" scroll-y :style="{height: wh + 'px'}">
-        <view class="left-scroll-view-item active">xxx</view>
-        <view class="left-scroll-view-item">xxx</view>
-        <view class="left-scroll-view-item">xxx</view>
-        <view class="left-scroll-view-item">xxx</view>
-        <view class="left-scroll-view-item">xxx</view>
-        <view class="left-scroll-view-item">多复制一些节点，演示纵向滚动效果...</view>
+        <block v-for="(item, i) in cateList" :key="i">
+           <view :class="['left-scroll-view-item', i === active ? 'active' : '']" @click="activeChanged(i)">{{item.cat_name}}</view>
+         </block>
       </scroll-view>
       <!-- 右侧的滚动视图区域 -->
       <scroll-view class="right-scroll-view" scroll-y :style="{height: wh + 'px'}">
@@ -28,7 +25,8 @@
 	      return {
 	        // 窗口的可用高度 = 屏幕高度 - navigationBar高度 - tabBar 高度
 	        wh: 0,
-          cateList: []
+          cateList: [],
+          active: 0
 	      };
 	    },
 	    onLoad() {
@@ -46,6 +44,9 @@
           if (res.meta.status !== 200) return uni.$showMsg()
           // 转存数据
           this.cateList = res.message
+        },
+        activeChanged(i) {
+          this.active = i
         }
       }
 	  }
