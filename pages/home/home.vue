@@ -20,6 +20,16 @@
       <view class="floor-item" v-for="(item, i) in floorList" :key="i">
         <!-- 楼层标题 -->
         <image :src="item.floor_title.image_src" class="floor-title"></image>
+        <!-- 楼层图片区域 -->
+        <view class="floor-img-box">
+          <!-- 左侧大图片的盒子 -->
+          <view class="left-img-box">
+            <image :src="item.product_list[0].image_src" :style="{width: item.product_list[0].image_width + 'rpx'}" mode="widthFix"></image>
+          </view>
+          <!-- 右侧 4 个小图片的盒子 -->
+          <view class="right-img-box">
+          </view>
+        </view>
       </view>
     </view>
 	</view>
