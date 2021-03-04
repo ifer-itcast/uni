@@ -9,10 +9,9 @@
       </scroll-view>
       <!-- 右侧的滚动视图区域 -->
       <scroll-view class="right-scroll-view" scroll-y :style="{height: wh + 'px'}">
-        <view class="left-scroll-view-item">zzz</view>
-        <view class="left-scroll-view-item">zzz</view>
-        <view class="left-scroll-view-item">zzz</view>
-        <view class="left-scroll-view-item">zzz</view>
+        <view class="cate-lv2" v-for="(item2, i2) in cateLevel2" :key="i2">
+          <view class="cate-lv2-title">/ {{item2.cat_name}} /</view>
+        </view>
         <view class="left-scroll-view-item">多复制一些节点，演示纵向滚动效果</view>
       </scroll-view>
     </view>
@@ -26,7 +25,8 @@
 	        // 窗口的可用高度 = 屏幕高度 - navigationBar高度 - tabBar 高度
 	        wh: 0,
           cateList: [],
-          active: 0
+          active: 0,
+          cateLevel2: []
 	      };
 	    },
 	    onLoad() {
@@ -44,9 +44,13 @@
           if (res.meta.status !== 200) return uni.$showMsg()
           // 转存数据
           this.cateList = res.message
+          // 为二级分类赋值
+          this.cateLevel2 = res.message[0].children
         },
         activeChanged(i) {
           this.active = i
+          // 为二级分类列表重新赋值
+          this.cateLevel2 = this.cateList[i].children
         }
       }
 	  }
