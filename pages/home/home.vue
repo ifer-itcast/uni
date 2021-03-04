@@ -28,6 +28,9 @@
           </view>
           <!-- 右侧 4 个小图片的盒子 -->
           <view class="right-img-box">
+            <view class="right-img-item" v-for="(item2, i2) in item.product_list" :key="i2" v-if="i2 !== 0">
+              <image :src="item2.image_src" mode="widthFix" :style="{width: item2.image_width + 'rpx'}"></image>
+            </view>
           </view>
         </view>
       </view>
@@ -104,5 +107,15 @@ swiper {
   height: 60rpx;
   width: 100%;
   display: flex;
+}
+.right-img-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.floor-img-box {
+  display: flex;
+  padding-left: 10rpx;
 }
 </style>
