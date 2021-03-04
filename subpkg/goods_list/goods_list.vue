@@ -1,6 +1,6 @@
 <template>
 	<view>
-		xxxddddddd
+		xx
 	</view>
 </template>
 
