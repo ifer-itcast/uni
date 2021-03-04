@@ -27,7 +27,8 @@
 	    data() {
 	      return {
 	        // 窗口的可用高度 = 屏幕高度 - navigationBar高度 - tabBar 高度
-	        wh: 0
+	        wh: 0,
+          cateList: []
 	      };
 	    },
 	    onLoad() {
@@ -35,7 +36,18 @@
 	      const sysInfo = uni.getSystemInfoSync()
 	      // 为 wh 窗口可用高度动态赋值
 	      this.wh = sysInfo.windowHeight
-	    }
+        this.getCateList()
+	    },
+      methods: {
+        async getCateList() {
+          // 发起请求
+          const { data: res } = await uni.$http.get('/api/public/v1/categories')
+          // 判断是否获取失败
+          if (res.meta.status !== 200) return uni.$showMsg()
+          // 转存数据
+          this.cateList = res.message
+        }
+      }
 	  }
 </script>
 
