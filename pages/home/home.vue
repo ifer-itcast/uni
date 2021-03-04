@@ -8,6 +8,11 @@
         </navigator>
       </swiper-item>
     </swiper>
+    <view class="nav-list">
+       <view class="nav-item" v-for="(item, i) in navList" :key="i">
+         <image :src="item.image_src" class="nav-img"></image>
+       </view>
+    </view>
 	</view>
 </template>
 
@@ -15,17 +20,26 @@
 	export default {
 		data() {
 			return {
-				swiperList: []
+				swiperList: [],
+        navList: []
 			};
 		},
     onLoad() {
+      // 轮播图
       this.getSwiperList()
+      // 分类导航
+      this.getNavList()
     },
     methods: {
       async getSwiperList() {
         const { data: res } = await uni.$http.get('/api/public/v1/home/swiperdata')
         if(res.meta.status !== 200) return uni.$showMsg()
         this.swiperList = res.message
+      },
+      async getNavList() {
+        const { data: res } = await uni.$http.get('/api/public/v1/home/catitems')
+        if(res.meta.status !== 200) return uni.$showMsg()
+        this.navList = res.message
       }
     }
 	}
@@ -35,10 +49,19 @@
 swiper {
  height: 330rpx;
 
- .swiper-item,
- image {
+ .swiper-item, image { 
    width: 100%;
    height: 100%;
  }
+}
+.nav-list {
+  display: flex;
+  justify-content: space-around;
+  margin: 15px 0;
+
+  .nav-img {
+    width: 128rpx;
+    height: 140rpx;
+  }
 }
 </style>
