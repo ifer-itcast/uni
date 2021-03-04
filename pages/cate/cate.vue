@@ -90,4 +90,10 @@
     }
   }
 }
+.cate-lv2-title {
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  padding: 15px 0;
+}
 </style>
