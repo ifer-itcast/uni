@@ -3,9 +3,9 @@
     <!-- 小圆点、自动轮播、间隔、每张轮播耗时、无缝滚动 -->
 		<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
       <swiper-item v-for="(item, i) in swiperList" :key="i">
-        <view class="swiper-item">
+        <navigator class="swiper-item" :url="'/subpkg/goods_detail/goods_detail?goods_id=' + item.goods_id">
           <image :src="item.image_src"></image>
-        </view>
+        </navigator>
       </swiper-item>
     </swiper>
 	</view>
