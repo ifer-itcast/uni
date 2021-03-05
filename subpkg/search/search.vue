@@ -12,7 +12,8 @@
 				// 延时器的 timerId
         timer: null,
         // 搜索关键词
-        kw: ''
+        kw: '',
+        searchResults: []
 			};
 		},
     methods: {
@@ -22,8 +23,19 @@
           this.timer = setTimeout(() => {
             // 如果 500 毫秒内，没有触发新的输入事件，则为搜索关键词赋值
             this.kw = e
-            console.log(this.kw)
+            this.getSearchList()
           }, 500)
+      },
+      async getSearchList() {
+        // 判断关键词是否为空
+        if (this.kw === '') {
+          this.searchResults = []
+          return
+        }
+        // 发起请求，获取搜索建议列表
+        const { data: res } = await uni.$http.get('/api/public/v1/goods/qsearch', { query: this.kw })
+        if (res.meta.status !== 200) return uni.$showMsg()
+        this.searchResults = res.message
       }
     }
 	}
