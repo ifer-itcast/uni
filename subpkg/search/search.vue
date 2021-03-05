@@ -13,11 +13,11 @@
       <!-- 标题区域 -->
       <view class="history-title">
         <text>搜索历史</text>
-        <uni-icons type="trash" size="17"></uni-icons>
+        <uni-icons type="trash" size="17" @click="cleanHistory"></uni-icons>
       </view>
       <!-- 列表区域 -->
       <view class="history-list">
-        <uni-tag :text="item" v-for="(item, i) in historys" :key="i"></uni-tag>
+        <uni-tag :text="item" v-for="(item, i) in historys" :key="i" @click="gotoGoodsList(item)"></uni-tag>
       </view>
     </view>
 	</view>
@@ -32,7 +32,7 @@
         // 搜索关键词
         kw: '',
         searchResults: [],
-        historyList: ['a', 'app', 'apple']
+        historyList: []
 			};
 		},
     computed: {
@@ -41,6 +41,9 @@
         // 而是应该新建一个内存无关的数组，再进行 reverse 反转
         return [...this.historyList].reverse()
       }
+    },
+    onLoad() {
+      this.historyList = JSON.parse(uni.getStorageSync('kw') || '[]')
     },
     methods: {
       input(e) {
@@ -81,6 +84,19 @@
         set.add(this.kw)
         // 4. 将 Set 对象转化为 Array 数组
         this.historyList = Array.from(set)
+        // 调用 uni.setStorageSync(key, value) 将搜索历史记录持久化存储到本地
+        uni.setStorageSync('kw', JSON.stringify(this.historyList))
+      },
+      cleanHistory() {
+        // 清空 data 中保存的搜索历史
+        this.historyList = []
+        // 清空本地存储中记录的搜索历史
+        uni.setStorageSync('kw', '[]')
+      },
+      gotoGoodsList(kw) {
+        uni.navigateTo({
+          url: '/subpkg/goods_list/goods_list?query=' + kw
+        })
       }
     }
 	}
