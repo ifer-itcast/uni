@@ -44,7 +44,7 @@
 	      // 获取当前系统的信息
 	      const sysInfo = uni.getSystemInfoSync()
 	      // 为 wh 窗口可用高度动态赋值
-	      this.wh = sysInfo.windowHeight
+	      this.wh = sysInfo.windowHeight - 50
         this.getCateList()
 	    },
       methods: {
