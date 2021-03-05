@@ -72,7 +72,15 @@
       },
       saveSearchHistory() {
         // 2.1 直接把搜索关键词 push 到 historyList 数组中
-        this.historyList.push(this.kw)
+        // this.historyList.push(this.kw)
+        // 1. 将 Array 数组转化为 Set 对象
+        const set = new Set(this.historyList)
+        // 2. 调用 Set 对象的 delete 方法，移除对应的元素
+        set.delete(this.kw)
+        // 3. 调用 Set 对象的 add 方法，向 Set 中添加元素
+        set.add(this.kw)
+        // 4. 将 Set 对象转化为 Array 数组
+        this.historyList = Array.from(set)
       }
     }
 	}
