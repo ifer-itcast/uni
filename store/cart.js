@@ -28,5 +28,13 @@ export default {
   },
 
   // 模块的 getters 属性
-  getters: {},
+  getters: {
+     // 统计购物车中商品的总数量
+     total(state) {
+        let c = 0
+        // 循环统计商品的数量，累加到变量 c 中
+        state.cart.forEach(goods => c += goods.goods_count)
+        return c
+     }
+  }
 }

@@ -38,10 +38,10 @@
 <script>
  import { mapState } from 'vuex'
 import { mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 	export default {
 		data() {
 			return {
-				goods_info: {},
         // 商品详情对象
             goods_info: {},
             // 左侧按钮组的配置对象
@@ -51,7 +51,7 @@ import { mapMutations } from 'vuex'
             }, {
               icon: 'cart',
               text: '购物车',
-              info: 2
+              info: 0
             }],
             // 右侧按钮组的配置对象
             buttonGroup: [{
@@ -64,13 +64,15 @@ import { mapMutations } from 'vuex'
                 backgroundColor: '#ffa200',
                 color: '#fff'
               }
-            ]
+            ],
 			};
 		},
      computed: {
         // 调用 mapState 方法，把 m_cart 模块中的 cart 数组映射到当前页面中，作为计算属性来使用
         // ...mapState('模块的名称', ['要映射的数据名称1', '要映射的数据名称2'])
         ...mapState('m_cart', ['cart']),
+        // 把 m_cart 模块中名称为 total 的 getter 映射到当前页面中使用
+            ...mapGetters('m_cart', ['total']),
       },
     onLoad(options) {
       // 获取商品 Id
@@ -78,6 +80,18 @@ import { mapMutations } from 'vuex'
       // 调用请求商品详情数据的方法
       this.getGoodsDetail(goods_id)
     },
+    watch: {
+        // 1. 监听 total 值的变化，通过第一个形参得到变化后的新值
+        total(newVal) {
+          // 2. 通过数组的 find() 方法，找到购物车按钮的配置对象
+          const findResult = this.options.find((x) => x.text === '购物车')
+    
+          if (findResult) {
+            // 3. 动态为购物车按钮的 info 属性赋值
+            findResult.info = newVal
+          }
+        },
+      },
     methods: {
       // 把 m_cart 模块中的 addToCart 方法映射到当前页面使用
       ...mapMutations('m_cart', ['addToCart']),
