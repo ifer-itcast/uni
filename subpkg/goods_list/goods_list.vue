@@ -41,9 +41,15 @@
         const { data: res } = await uni.$http.get('/api/public/v1/goods/search', this.queryObj)
         if (res.meta.status !== 200) return uni.$showMsg()
         // 为数据赋值
-        this.goodsList = res.message.goods
+        this.goodsList = [...this.goodsList, ...res.message.goods]
         this.total = res.message.total
       }
+    },
+    onReachBottom() {
+      // 让页码值自增 +1
+      this.queryObj.pagenum += 1
+      // 重新获取列表数据
+      this.getGoodsList()
     }
 	}
 </script>
