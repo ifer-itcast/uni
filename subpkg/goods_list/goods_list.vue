@@ -37,11 +37,13 @@
       this.getGoodsList()
     },
     methods: {
-      async getGoodsList() {
+      async getGoodsList(cb) {
         this.isloading = true
         // 发起请求
         const { data: res } = await uni.$http.get('/api/public/v1/goods/search', this.queryObj)
         this.isloading = false
+        // 只要数据请求完毕，就立即按需调用 cb 回调函数
+        cb && cb()
         if (res.meta.status !== 200) return uni.$showMsg()
         // 为数据赋值
         this.goodsList = [...this.goodsList, ...res.message.goods]
@@ -58,6 +60,16 @@
       this.queryObj.pagenum += 1
       // 重新获取列表数据
       this.getGoodsList()
+    },
+    onPullDownRefresh() {
+      // 1. 重置关键数据
+      this.queryObj.pagenum = 1
+      this.total = 0
+      this.isloading = false
+      this.goodsList = []
+    
+      // 2. 重新发起请求
+      this.getGoodsList(() => uni.stopPullDownRefresh())
     }
 	}
 </script>
