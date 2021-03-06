@@ -88,6 +88,15 @@
           // 所有图片 url 地址的数组
           urls: this.goods_info.pics.map(x => x.pics_big)
         })
+      },
+      // 左侧按钮的点击事件处理函数
+      onClick(e) {
+        if (e.content.text === '购物车') {
+          // 切换到购物车页面
+          uni.switchTab({
+            url: '/pages/cart/cart'
+          })
+        }
       }
     }
 	}
