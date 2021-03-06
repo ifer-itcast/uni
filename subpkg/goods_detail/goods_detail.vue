@@ -80,7 +80,7 @@ import { mapGetters } from 'vuex'
       // 调用请求商品详情数据的方法
       this.getGoodsDetail(goods_id)
     },
-    watch: {
+    /* watch: {
         // 1. 监听 total 值的变化，通过第一个形参得到变化后的新值
         total(newVal) {
           // 2. 通过数组的 find() 方法，找到购物车按钮的配置对象
@@ -91,6 +91,20 @@ import { mapGetters } from 'vuex'
             findResult.info = newVal
           }
         },
+      }, */
+      watch: {
+         // 定义 total 侦听器，指向一个配置对象
+         total: {
+            // handler 属性用来定义侦听器的 function 处理函数
+            handler(newVal) {
+               const findResult = this.options.find(x => x.text === '购物车')
+               if (findResult) {
+                  findResult.info = newVal
+               }
+            },
+            // immediate 属性用来声明此侦听器，是否在页面初次加载完毕后立即调用
+            immediate: true
+         }
       },
     methods: {
       // 把 m_cart 模块中的 addToCart 方法映射到当前页面使用
