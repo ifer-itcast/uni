@@ -27,6 +27,7 @@
         goodsList: [],
         // 总数量，用来实现分页
         total: 0,
+        isloading: false
 			};
 		},
     onLoad(options) {
@@ -37,8 +38,10 @@
     },
     methods: {
       async getGoodsList() {
+        this.isloading = true
         // 发起请求
         const { data: res } = await uni.$http.get('/api/public/v1/goods/search', this.queryObj)
+        this.isloading = false
         if (res.meta.status !== 200) return uni.$showMsg()
         // 为数据赋值
         this.goodsList = [...this.goodsList, ...res.message.goods]
@@ -46,6 +49,9 @@
       }
     },
     onReachBottom() {
+       // 判断是否正在请求其它数据，如果是，则不发起额外的请求
+        if (this.isloading) return
+
       // 让页码值自增 +1
       this.queryObj.pagenum += 1
       // 重新获取列表数据
