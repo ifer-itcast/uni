@@ -40,6 +40,7 @@
       ...mapGetters('m_user', ['addstr']),
       // token 是用户登录成功之后的 token 字符串
       ...mapState('m_user', ['token']),
+      ...mapState('m_cart', ['cart']),
       // 2. 是否全选
       isFullCheck() {
         return this.total === this.checkedCount
@@ -65,6 +66,36 @@
         // 3. 最后判断用户是否登录了，如果没有登录，则调用 delayNavigate() 进行倒计时的导航跳转
         // if (!this.token) return uni.$showMsg('请先登录！')
         if (!this.token) return this.delayNavigate()
+
+        // 4. 实现微信支付功能
+        this.payOrder()
+      },
+      // 微信支付
+      async payOrder() {
+        // 1. 创建订单
+        // 1.1 组织订单的信息对象
+        const orderInfo = {
+          // 开发期间，注释掉真实的订单价格，
+          // order_price: this.checkedGoodsAmount,
+          // 写死订单总价为 1 分钱
+          order_price: 0.01,
+          consignee_addr: this.addstr,
+          goods: this.cart.filter(x => x.goods_state).map(x => ({
+            goods_id: x.goods_id,
+            goods_number: x.goods_count,
+            goods_price: x.goods_price
+          }))
+        }
+        // 1.2 发起请求创建订单
+        const {
+          data: res
+        } = await uni.$http.post('/api/public/v1/my/orders/create', orderInfo)
+        if (res.meta.status !== 200) return uni.$showMsg('创建订单失败！')
+        // 1.3 得到服务器响应的“订单编号”
+        const orderNumber = res.message.order_number
+        // 2. 订单预支付
+
+        // 3. 发起微信支付
       },
       // 延迟导航到 my 页面
       delayNavigate() {
