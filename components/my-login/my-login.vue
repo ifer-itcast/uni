@@ -3,7 +3,8 @@
     <!-- 提示登录的图标 -->
     <uni-icons type="contact-filled" size="100" color="#AFAFAF"></uni-icons>
     <!-- 登录按钮 -->
-    <button type="primary" class="btn-login">一键登录</button>
+    <!-- 可以从 @getuserinfo 事件处理函数的形参中，获取到用户的基本信息 -->
+    <button type="primary" class="btn-login" open-type="getUserInfo" @getuserinfo="getUserInfo">一键登录</button>
     <!-- 登录提示 -->
     <view class="tips-text">登录后尽享更多权益</view>
   </view>
@@ -16,7 +17,17 @@
 			return {
 				
 			};
-		}
+		},
+    methods: {
+      // 获取微信用户的基本信息
+      getUserInfo(e) {
+        // 判断是否获取用户信息成功
+        if (e.detail.errMsg === 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权！')
+    
+        // 获取用户信息成功， e.detail.userInfo 就是用户的基本信息
+        console.log(e.detail.userInfo)
+      }
+    }
 	}
 </script>
 
