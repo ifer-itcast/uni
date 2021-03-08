@@ -2,6 +2,7 @@
   <view class="goods-item">
     <!-- 商品左侧图片区域 -->
     <view class="goods-item-left">
+      <radio checked color="#C00000"></radio>
       <image :src="goods.goods_small_logo || defaultPic" class="goods-pic"></image>
     </view>
     <!-- 商品右侧信息区域 -->
@@ -26,6 +27,7 @@
         defaul: {},
       },
     },
+    
     data() {
       return {
         // 默认的空图片
@@ -49,7 +51,9 @@
 
     .goods-item-left {
       margin-right: 5px;
-
+display: flex;
+  justify-content: space-between;
+  align-items: center;
       .goods-pic {
         width: 100px;
         height: 100px;
