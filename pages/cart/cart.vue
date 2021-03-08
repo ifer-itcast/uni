@@ -9,7 +9,7 @@
 		</view>
     <!-- 商品列表区域 -->
     <block v-for="(goods, i) in cart" :key="i">
-      <my-goods :goods="goods" :show-radio="true"></my-goods>
+      <my-goods :goods="goods" :show-radio="true" @radio-change="radioChangeHandler"></my-goods>
     </block>
 	</view>
 </template>
@@ -38,7 +38,10 @@ export default {
            index: 2, // 索引
            text: this.total + '' // 注意：text 的值必须是字符串，不能是数字
         })
-     }
+     },
+     radioChangeHandler(e) {
+         console.log(e) // 输出得到的数据 -> {goods_id: 395, goods_state: false}
+       }
   }
 }
 </script>
