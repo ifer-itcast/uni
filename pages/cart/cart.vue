@@ -10,7 +10,7 @@
     <!-- 商品列表区域 -->
     <block v-for="(goods, i) in cart" :key="i">
       <my-goods :goods="goods"></my-goods>
-    </block
+    </block>
 	</view>
 </template>
 
