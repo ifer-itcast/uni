@@ -32,6 +32,7 @@ export default {
      this.setBadge()
   },
   methods: {
+    ...mapMutations('m_cart', ['updateGoodsState', 'updateGoodsCount']),
      setBadge() {
         // 调用 uni.setTabBarBadge() 方法，为购物车设置右上角的徽标
         uni.setTabBarBadge({
@@ -44,7 +45,7 @@ export default {
          this.updateGoodsState(e) // 输出得到的数据 -> {goods_id: 395, goods_state: false}
        },
        numberChangeHandler(e) {
-         console.log(e)
+         this.updateGoodsCount(e)
        }
   }
 }
