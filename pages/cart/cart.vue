@@ -25,6 +25,7 @@
 </template>
 
 <script>
+  import badgeMix from '@/mixins/tabbar-badge.js'
   // 按需导入 mapState 这个辅助函数
   import {
     mapGetters,
@@ -32,6 +33,7 @@
     mapMutations
   } from 'vuex'
   export default {
+    mixins: [badgeMix],
     data() {
       return {
         options: [{
