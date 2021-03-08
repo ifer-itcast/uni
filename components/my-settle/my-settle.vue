@@ -67,6 +67,8 @@
       },
       // 延迟导航到 my 页面
       delayNavigate() {
+        // 把 data 中的秒数重置成 3 秒
+        this.seconds = 3
         // 1. 展示提示消息，此时 seconds 的值等于 3
         this.showTips(this.seconds)
 
