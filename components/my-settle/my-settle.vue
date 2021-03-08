@@ -17,20 +17,27 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapState } from 'vuex'
+  import {
+    mapGetters,
+    mapMutations,
+    mapState
+  } from 'vuex'
   export default {
     computed: {
       ...mapGetters('m_cart', ['checkedCount']),
     },
     data() {
-      return {}
+      return {
+        // 倒计时的秒数
+        seconds: 3
+      }
     },
     computed: {
       // 1. 将 total 映射到当前组件中
       ...mapGetters('m_cart', ['checkedCount', 'total', 'checkedGoodsAmount']),
       ...mapGetters('m_user', ['addstr']),
       // token 是用户登录成功之后的 token 字符串
-          ...mapState('m_user', ['token']),
+      ...mapState('m_user', ['token']),
       // 2. 是否全选
       isFullCheck() {
         return this.total === this.checkedCount
@@ -48,12 +55,40 @@ import { mapGetters, mapMutations, mapState } from 'vuex'
       settlement() {
         // 1. 先判断是否勾选了要结算的商品
         if (!this.checkedCount) return uni.$showMsg('请选择要结算的商品！')
-      
+
         // 2. 再判断用户是否选择了收货地址
         if (!this.addstr) return uni.$showMsg('请选择收货地址！')
+
+        // 3. 最后判断用户是否登录了，如果没有登录，则调用 delayNavigate() 进行倒计时的导航跳转
+        // if (!this.token) return uni.$showMsg('请先登录！')
+        if (!this.token) return this.delayNavigate()
+      },
+      // 延迟导航到 my 页面
+      delayNavigate() {
+        // 1. 展示提示消息，此时 seconds 的值等于 3
+        this.showTips(this.seconds)
       
-        // 3. 最后判断用户是否登录了
-        if (!this.token) return uni.$showMsg('请先登录！')
+        // 2. 创建定时器，每隔 1 秒执行一次
+        setInterval(() => {
+          // 2.1 先让秒数自减 1
+          this.seconds--
+          // 2.2 再根据最新的秒数，进行消息提示
+          this.showTips(this.seconds)
+        }, 1000)
+      },
+      // 展示倒计时的提示消息
+      showTips(n) {
+        // 调用 uni.showToast() 方法，展示提示消息
+        uni.showToast({
+          // 不展示任何图标
+          icon: 'none',
+          // 提示的消息
+          title: '请登录后再结算！' + n + ' 秒后自动跳转到登录页',
+          // 为页面添加透明遮罩，防止点击穿透
+          mask: true,
+          // 1.5 秒后自动消失
+          duration: 1500
+        })
       }
     },
   }
