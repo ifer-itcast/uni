@@ -9,7 +9,7 @@
 		</view>
     <!-- 商品列表区域 -->
     <block v-for="(goods, i) in cart" :key="i">
-      <my-goods :goods="goods" :show-radio="true" :show-num="true" @radio-change="radioChangeHandler"></my-goods>
+      <my-goods :goods="goods" :show-radio="true" :show-num="true" @radio-change="radioChangeHandler" @num-change="numberChangeHandler"></my-goods>
     </block>
 	</view>
 </template>
@@ -42,6 +42,9 @@ export default {
      ...mapMutations('m_cart', ['updateGoodsState']),
      radioChangeHandler(e) {
          this.updateGoodsState(e) // 输出得到的数据 -> {goods_id: 395, goods_state: false}
+       },
+       numberChangeHandler(e) {
+         console.log(e)
        }
   }
 }

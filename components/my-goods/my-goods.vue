@@ -62,7 +62,17 @@
           // 商品最新的勾选状态
           goods_state: !this.goods.goods_state
         })
-      }
+      },
+      // NumberBox 组件的 change 事件处理函数
+        numChangeHandler(val) {
+          // 通过 this.$emit() 触发外界通过 @ 绑定的 num-change 事件
+          this.$emit('num-change', {
+            // 商品的 Id
+            goods_id: this.goods.goods_id,
+            // 商品的最新数量
+            goods_count: +val
+          })
+        }
     }
   }
 </script>
