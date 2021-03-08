@@ -47,7 +47,7 @@
     },
     methods: {
       // 2. 使用 mapMutations 辅助函数，把 m_cart 模块提供的 updateAllGoodsState 方法映射到当前组件中使用
-      ...mapMutations('m_cart', ['updateAllGoodsState']),
+      ...mapMutations('m_cart', ['updateAllGoodsState', 'updateRedirectInfo']),
       // label 的点击事件处理函数
       changeAllState() {
         // 修改购物车中所有商品的选中状态
@@ -83,7 +83,17 @@
 
             // 2.2 跳转到 my 页面
             uni.switchTab({
-              url: '/pages/my/my'
+              url: '/pages/my/my',
+              // 页面跳转成功之后的回调函数
+              success: () => {
+                // 调用 vuex 的 updateRedirectInfo 方法，把跳转信息存储到 Store 中
+                this.updateRedirectInfo({
+                  // 跳转的方式
+                  openType: 'switchTab',
+                  // 从哪个页面跳转过去的
+                  from: '/pages/cart/cart'
+                })
+              }
             })
 
             // 2.3 终止后续代码的运行（当秒数为 0 时，不再展示 toast 提示消息）
