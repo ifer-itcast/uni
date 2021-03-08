@@ -21,11 +21,9 @@
 </template>
 
 <script>
-  import {
-    mapGetters
-  } from 'vuex'
   // 按需导入 mapState 这个辅助函数
   import {
+    mapGetters,
     mapState,
     mapMutations
   } from 'vuex'
@@ -50,7 +48,7 @@
       this.setBadge()
     },
     methods: {
-      ...mapMutations('m_cart', ['updateGoodsState', 'updateGoodsCount']),
+      ...mapMutations('m_cart', ['updateGoodsState', 'updateGoodsCount', 'removeGoodsById']),
       setBadge() {
         // 调用 uni.setTabBarBadge() 方法，为购物车设置右上角的徽标
         uni.setTabBarBadge({
@@ -64,7 +62,10 @@
       },
       numberChangeHandler(e) {
         this.updateGoodsCount(e)
-      }
+      },
+      swipeActionClickHandler(goods) {
+          this.removeGoodsById(goods.goods_id)
+        }
     }
   }
 </script>
