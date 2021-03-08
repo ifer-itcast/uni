@@ -29,14 +29,18 @@
 </template>
 
 <script>
+  // 1. 按需导入 mapState 和 mapMutations 这两个辅助函数
+  import { mapState, mapMutations } from 'vuex'
 	export default {
 		name:"my-address",
 		data() {
 			return {
-				address: {},
+				// address: {},
 			};
 		},
     computed: {
+      // 2.2 把 m_user 模块中的 address 对象映射当前组件中使用，代替 data 中 address 对象
+          ...mapState('m_user', ['address']),
       // 收货详细地址的计算属性
       addstr() {
         if (!this.address.provinceName) return ''
@@ -46,6 +50,8 @@
       }
     },
     methods: {
+      // 3.1 把 m_user 模块中的 updateAddress 函数映射到当前组件
+          ...mapMutations('m_user', ['updateAddress']),
       // 选择收货地址
       async chooseAddress() {
         // 1. 调用小程序提供的 chooseAddress() 方法，即可使用选择收货地址的功能
@@ -54,8 +60,11 @@
     
         // 2. 用户成功的选择了收货地址
         if (err === null && succ.errMsg === 'chooseAddress:ok') {
-          // 为 data 里面的收货地址对象赋值
-          this.address = succ
+          // 3.2 把下面这行代码注释掉，使用 3.3 中的代码替代之
+                  // this.address = succ
+          
+                  // 3.3 调用 Store 中提供的 updateAddress 方法，将 address 保存到 Store 里面
+                  this.updateAddress(succ)
         }
       }
     }
