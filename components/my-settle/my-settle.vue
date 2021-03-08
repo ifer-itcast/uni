@@ -94,7 +94,16 @@
         // 1.3 得到服务器响应的“订单编号”
         const orderNumber = res.message.order_number
         // 2. 订单预支付
-
+        // 2.1 发起请求获取订单的支付信息
+        const {
+          data: res2
+        } = await uni.$http.post('/api/public/v1/my/orders/req_unifiedorder', {
+          order_number: orderNumber
+        })
+        // 2.2 预付订单生成失败
+        if (res2.meta.status !== 200) return uni.$showError('预付订单生成失败！')
+        // 2.3 得到订单支付相关的必要参数
+        const payInfo = res2.message.pay
         // 3. 发起微信支付
       },
       // 延迟导航到 my 页面
