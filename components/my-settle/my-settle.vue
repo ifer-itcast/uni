@@ -47,7 +47,8 @@
     },
     methods: {
       // 2. 使用 mapMutations 辅助函数，把 m_cart 模块提供的 updateAllGoodsState 方法映射到当前组件中使用
-      ...mapMutations('m_cart', ['updateAllGoodsState', 'updateRedirectInfo']),
+      ...mapMutations('m_cart', ['updateAllGoodsState']),
+      ...mapMutations('m_user', ['updateRedirectInfo']),
       // label 的点击事件处理函数
       changeAllState() {
         // 修改购物车中所有商品的选中状态
