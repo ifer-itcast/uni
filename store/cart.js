@@ -61,6 +61,13 @@ export default {
       state.cart = state.cart.filter(x => x.goods_id !== goods_id)
       // 持久化存储到本地
       this.commit('m_cart/saveToStorage')
+    },
+    // 更新所有商品的勾选状态
+    updateAllGoodsState(state, newState) {
+      // 循环更新购物车中每件商品的勾选状态
+      state.cart.forEach(x => x.goods_state = newState)
+      // 持久化存储到本地
+      this.commit('m_cart/saveToStorage')
     }
   },
 
@@ -68,10 +75,11 @@ export default {
   getters: {
      // 统计购物车中商品的总数量
      total(state) {
-        let c = 0
-        // 循环统计商品的数量，累加到变量 c 中
-        state.cart.forEach(goods => c += goods.goods_count)
-        return c
+        // let c = 0
+        // // 循环统计商品的数量，累加到变量 c 中
+        // state.cart.forEach(goods => c += goods.goods_count)
+        // return c
+        return state.cart.reduce((total, item) => total += item.goods_count, 0)
      },
      // 勾选的商品的总数量
      checkedCount(state) {

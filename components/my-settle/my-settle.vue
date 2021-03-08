@@ -2,7 +2,7 @@
   <!-- 最外层的容器 -->
   <view class="my-settle-container">
     <!-- 全选区域 -->
-    <label class="radio">
+    <label class="radio" @click="changeAllState">
       <radio color="#C00000" :checked="isFullCheck" /><text>全选</text>
     </label>
 
@@ -18,7 +18,8 @@
 
 <script>
   import {
-    mapGetters
+    mapGetters,
+    mapMutations
   } from 'vuex'
   export default {
     computed: {
@@ -28,13 +29,23 @@
       return {}
     },
     computed: {
-        // 1. 将 total 映射到当前组件中
-        ...mapGetters('m_cart', ['checkedCount', 'total']),
-        // 2. 是否全选
-        isFullCheck() {
-          return this.total === this.checkedCount
-        },
+      // 1. 将 total 映射到当前组件中
+      ...mapGetters('m_cart', ['checkedCount', 'total']),
+      // 2. 是否全选
+      isFullCheck() {
+        return this.total === this.checkedCount
       },
+    },
+    methods: {
+      // 2. 使用 mapMutations 辅助函数，把 m_cart 模块提供的 updateAllGoodsState 方法映射到当前组件中使用
+      ...mapMutations('m_cart', ['updateAllGoodsState']),
+      // label 的点击事件处理函数
+      changeAllState() {
+        // 修改购物车中所有商品的选中状态
+        // !this.isFullCheck 表示：当前全选按钮的状态取反之后，就是最新的勾选状态
+        this.updateAllGoodsState(!this.isFullCheck)
+      }
+    },
   }
 </script>
 
