@@ -12,6 +12,7 @@
       <view class="goods-info-box">
         <!-- 商品价格 -->
         <view class="goods-price">￥{{goods.goods_price | tofixed}}</view>
+         <uni-number-box :min="1" :value="goods.goods_count" @change="numChangeHandler" v-if="showNum"></uni-number-box>
       </view>
     </view>
   </view>
@@ -32,6 +33,10 @@
             // 如果外界没有指定 show-radio 属性的值，则默认不展示 radio 组件
             default: false,
           },
+          showNum: {
+                type: Boolean,
+                default: false,
+              },
     },
     
     data() {
@@ -82,12 +87,18 @@ display: flex;
 
     .goods-item-right {
       display: flex;
+      flex: 1;
       flex-direction: column;
       justify-content: space-between;
 
       .goods-name {
         font-size: 13px;
       }
+      .goods-info-box {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
 
       .goods-price {
         font-size: 16px;

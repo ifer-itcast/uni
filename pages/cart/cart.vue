@@ -9,7 +9,7 @@
 		</view>
     <!-- 商品列表区域 -->
     <block v-for="(goods, i) in cart" :key="i">
-      <my-goods :goods="goods" :show-radio="true" @radio-change="radioChangeHandler"></my-goods>
+      <my-goods :goods="goods" :show-radio="true" :show-num="true" @radio-change="radioChangeHandler"></my-goods>
     </block>
 	</view>
 </template>
