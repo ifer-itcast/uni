@@ -17,7 +17,7 @@
 <script>
 import { mapGetters } from 'vuex'
 // 按需导入 mapState 这个辅助函数
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 export default {
   data() {
     return {}
@@ -39,8 +39,9 @@ export default {
            text: this.total + '' // 注意：text 的值必须是字符串，不能是数字
         })
      },
+     ...mapMutations('m_cart', ['updateGoodsState']),
      radioChangeHandler(e) {
-         console.log(e) // 输出得到的数据 -> {goods_id: 395, goods_state: false}
+         this.updateGoodsState(e) // 输出得到的数据 -> {goods_id: 395, goods_state: false}
        }
   }
 }
