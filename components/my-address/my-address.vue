@@ -30,7 +30,7 @@
 
 <script>
   // 1. 按需导入 mapState 和 mapMutations 这两个辅助函数
-  import { mapState, mapMutations } from 'vuex'
+  import { mapState, mapMutations, mapGetters } from 'vuex'
 	export default {
 		name:"my-address",
 		data() {
@@ -42,12 +42,9 @@
       // 2.2 把 m_user 模块中的 address 对象映射当前组件中使用，代替 data 中 address 对象
           ...mapState('m_user', ['address']),
       // 收货详细地址的计算属性
-      addstr() {
-        if (!this.address.provinceName) return ''
-    
-        // 拼接 省，市，区，详细地址 的字符串并返回给用户
-        return this.address.provinceName + this.address.cityName + this.address.countyName + this.address.detailInfo
-      }
+      // 将 m_user 模块中的 addstr 映射到当前组件中使用
+          ...mapGetters('m_user', ['addstr']),
+      
     },
     methods: {
       // 3.1 把 m_user 模块中的 updateAddress 函数映射到当前组件
