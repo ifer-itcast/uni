@@ -29,7 +29,9 @@
     data() {
       return {
         // 倒计时的秒数
-        seconds: 3
+        seconds: 3,
+        // 定时器的 Id
+        timer: null
       }
     },
     computed: {
@@ -67,12 +69,25 @@
       delayNavigate() {
         // 1. 展示提示消息，此时 seconds 的值等于 3
         this.showTips(this.seconds)
-      
-        // 2. 创建定时器，每隔 1 秒执行一次
-        setInterval(() => {
-          // 2.1 先让秒数自减 1
+
+        // 1. 将定时器的 Id 存储到 timer 中
+        this.timer = setInterval(() => {
           this.seconds--
-          // 2.2 再根据最新的秒数，进行消息提示
+
+          // 2. 判断秒数是否 <= 0
+          if (this.seconds <= 0) {
+            // 2.1 清除定时器
+            clearInterval(this.timer)
+
+            // 2.2 跳转到 my 页面
+            uni.switchTab({
+              url: '/pages/my/my'
+            })
+
+            // 2.3 终止后续代码的运行（当秒数为 0 时，不再展示 toast 提示消息）
+            return
+          }
+
           this.showTips(this.seconds)
         }, 1000)
       },
