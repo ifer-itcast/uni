@@ -23,7 +23,7 @@
     },
     methods: {
       // 2. 调用 mapMutations 辅助方法，把 m_user 模块中的 updateUserInfo 映射到当前组件中使用
-      ...mapMutations('m_user', ['updateUserInfo']),
+      ...mapMutations('m_user', ['updateUserInfo', 'updateToken']),
       // 获取微信用户的基本信息
       getUserInfo(e) {
         // 判断是否获取用户信息成功
@@ -56,7 +56,8 @@
           data: loginResult
         } = await uni.$http.post('/api/public/v1/users/wxlogin', query)
         if (loginResult.meta.status !== 200) return uni.$showMsg('登录失败！')
-        uni.$showMsg('登录成功')
+        // uni.$showMsg('登录成功')
+        this.updateToken(loginResult.message.token)
       }
     }
   }
