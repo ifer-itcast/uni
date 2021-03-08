@@ -68,7 +68,7 @@
           <text>联系客服</text>
           <uni-icons type="arrowright" size="15"></uni-icons>
         </view>
-        <view class="panel-list-item">
+        <view class="panel-list-item" @click="logout">
           <text>退出登录</text>
           <uni-icons type="arrowright" size="15"></uni-icons>
         </view>
@@ -79,7 +79,8 @@
 
 <script>
   import {
-    mapState
+    mapState,
+    mapMutations
   } from 'vuex'
   export default {
     name: "my-userinfo",
@@ -91,6 +92,25 @@
       return {
 
       };
+    },
+    methods: {
+      ...mapMutations('m_user', ['updateUserInfo', 'updateToken', 'updateAddress']),
+      // 退出登录
+      async logout() {
+        // 询问用户是否退出登录
+        const [err, succ] = await uni.showModal({
+          title: '提示',
+          content: '确认退出登录吗？'
+        }).catch(err => err)
+
+        if (succ && succ.confirm) {
+          // 用户确认了退出登录的操作
+          // 需要清空 vuex 中的 userinfo、token 和 address
+          this.updateUserInfo({})
+          this.updateToken('')
+          this.updateAddress({})
+        }
+      }
     }
   }
 </script>
