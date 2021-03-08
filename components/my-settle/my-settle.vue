@@ -12,12 +12,18 @@
     </view>
 
     <!-- 结算按钮 -->
-    <view class="btn-settle">结算(0)</view>
+    <view class="btn-settle">结算({{checkedCount}})</view>
   </view>
 </template>
 
 <script>
+  import {
+    mapGetters
+  } from 'vuex'
   export default {
+    computed: {
+      ...mapGetters('m_cart', ['checkedCount']),
+    },
     data() {
       return {}
     },
