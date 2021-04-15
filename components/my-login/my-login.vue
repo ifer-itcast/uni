@@ -4,7 +4,7 @@
     <uni-icons type="contact-filled" size="100" color="#AFAFAF"></uni-icons>
     <!-- 登录按钮 -->
     <!-- 可以从 @getuserinfo 事件处理函数的形参中，获取到用户的基本信息 -->
-    <button type="primary" class="btn-login" open-type="getUserInfo" @getuserinfo="getUserInfo">一键登录</button>
+    <button type="primary" class="btn-login" @click="getUserProfile">一键登录</button>
     <!-- 登录提示 -->
     <view class="tips-text">登录后尽享更多权益</view>
   </view>
@@ -25,15 +25,15 @@
       // 2. 调用 mapMutations 辅助方法，把 m_user 模块中的 updateUserInfo 映射到当前组件中使用
       ...mapMutations('m_user', ['updateUserInfo', 'updateToken']),
       // 获取微信用户的基本信息
-      getUserInfo(e) {
-        // 判断是否获取用户信息成功
-        if (e.detail.errMsg === 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权！')
-
-        // 获取用户信息成功， e.detail.userInfo 就是用户的基本信息
+      async getUserProfile() {
+        const [err, res] = await uni.getUserProfile({
+          desc: '获取用户信息'
+        }).catch(err => err);
+        if (err !== null) return uni.$showMsg('您取消了授权');
         // 3. 将用户的基本信息存储到 vuex 中
-        this.updateUserInfo(e.detail.userInfo)
+        this.updateUserInfo(res.userInfo)
         // 获取登录成功后的 Token 字符串
-        this.getToken(e.detail)
+        this.getToken(res)
       },
       // 调用登录接口，换取永久的 token
       async getToken(info) {
