@@ -50,7 +50,6 @@
           rawData: info.rawData,
           signature: info.signature
         }
-
         // 换取 token
         const {
           data: loginResult
