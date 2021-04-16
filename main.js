@@ -9,7 +9,7 @@ uni.$http = $http
 
 // https://www.zhengzhicheng.cn
 // https://autumnfish.cn/wx
-$http.baseUrl = 'https://www.uinav.com'
+$http.baseUrl = 'https://api-hmugo-web.itheima.net'
 
 // 请求拦截器
 $http.beforeRequest = function(options) {
